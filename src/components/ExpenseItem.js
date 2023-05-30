@@ -3,7 +3,7 @@ import { TiDelete } from 'react-icons/ti';
 import { AppContext } from '../context/AppContext';
 
 const ExpenseItem = (props) => {
-  const { dispatch } = useContext(AppContext);
+  const { dispatch, currency } = useContext(AppContext);
 
   const handleDeleteExpense = () => {
     dispatch({
@@ -25,11 +25,25 @@ const ExpenseItem = (props) => {
 
   }
 
+  const decreaseAllocation = (name) => {
+    const expense = {
+      name: name,
+      cost: 10,
+    };
+
+    dispatch({
+      type: 'RED_EXPENSE',
+      payload: expense
+    });
+
+  }
+
   return (
     <tr>
       <td>{props.name}</td>
-      <td>£{props.cost}</td>
-      <td><button onClick={event => increaseAllocation(props.name)}>+</button></td>
+      <td>{currency}{props.cost}</td>
+      <td><button style={{border: 'none', background: 'none' }} onClick={event => increaseAllocation(props.name)}><img width="32" height="32" src="https://img.icons8.com/color/32/plus--v1.png" alt="plus--v1" /></button></td>
+      <td><button style={{ border: 'none', background: 'none' }} onClick={event => decreaseAllocation(props.name)}><img width="32" height="32" src="https://img.icons8.com/color/48/minus.png" alt="minus" /></button></td>
       <td><TiDelete size='1.5em' onClick={handleDeleteExpense}></TiDelete></td>
     </tr>
   );
